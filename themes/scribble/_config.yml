@@ -1,0 +1,18 @@
+﻿title: StackFing
+description: 活在每天的方格里
+
+menu:
+  Home: /
+  About: /about
+
+
+rss: 
+
+# your name
+signoff: StackFing
+
+# disqus comment thread for post header options ( leave blank if unwanted )
+disqus_shortname: 
+
+# set tracking, UA-XXXX-Y
+google_analytics: 
