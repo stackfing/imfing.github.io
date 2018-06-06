@@ -1,6 +1,9 @@
+
+/*
 h2, h3, h4, h5 {
   margin: 2em 0 1em; }
 
+*/
 html, body {
   height: 100%; }
 
@@ -250,7 +253,7 @@ section.post {
   font-size: 16px;
   line-height: 1.8em; }
   section.post h1 {
-    text-align: center;
+    //text-align: center;
     line-height: 1.5em;
     margin-bottom: 60px; }
     section.post h1 .date {
@@ -279,7 +282,7 @@ section.post {
 pre {
   word-wrap: break-word;
   color: #eee;
-  background: #29281e;
+  //background: #29281e;
   padding: 1em;
   border-radius: 5px;
   width: 100%;
@@ -327,3 +330,7 @@ figure {
   background: #ddd; }
 #page-nav a, #page-nav span {
   padding: 10px 20px; }
+
+footer a {
+font-size:10px;
+}
