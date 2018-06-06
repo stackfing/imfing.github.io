@@ -10,11 +10,12 @@
       <%- partial('_partial/post_pagination') %>
       <div class='content'>
         <section class='post'>
-          <h1>
-          <%= page.title %>
-            <div class='date'><%- date(page.date, config.date_format) %></div>
-            
-          </h1>
+          <center>
+              <h1>
+                  <%= page.title %>
+                    <div class='date'><%- date(page.date, config.date_format) %></div>
+                  </h1>
+          </center>
           <%- page.content %>
         </section>
         <hr>

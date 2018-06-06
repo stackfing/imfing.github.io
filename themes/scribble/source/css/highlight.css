@@ -1,6 +1,6 @@
 .post pre,
 .post .highlight {
-  background: #2d2d2d;
+  //background: #2d2d2d;
   padding: 1em;
   border-style: solid;
   border-color: #ddd;
@@ -123,4 +123,14 @@ pre .coffeescript .title {
 pre .keyword,
 pre .javascript .function {
   color: #c9c;
+}
+@media (max-width: 767px) {
+  .pre-numbering {
+    display: none;
+  }
+  .has-numbering {
+    margin-left: -10px !important;
+    word-wrap: break-world !important;
+    white-space: pre-wrap !important;
+  }
 }
