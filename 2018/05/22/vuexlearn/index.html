@@ -1,0 +1,270 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>手摸手，带你用 vue 动画实现原生 app 切换效果，丝滑般的体验 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2018/05/31/spring-boot-websocket/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/05/13/networking-3/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  手摸手，带你用 vue 动画实现原生 app 切换效果，丝滑般的体验
+                    <div class="date">2018-05-22</div>
+                  </h1>
+          </center>
+
+          <p>先来看效果图</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4438070-f40294da0943c89b?imageMogr2/auto-orient/strip" alt="效果"></p>
+<p>完整源码在 github 中：</p>
+<p><a href="https://github.com/imfing/vuexlearn" target="_blank" rel="noopener">https://github.com/imfing/vuexlearn</a></p>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>开始之前您需要有 vue 基础，以及安装好 vue-cli</p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><p>新建 vue 项目：<code>vue init webpack vuexlearn</code><br>记住安装的时候需要选择 vue-router</p>
+<p>进入 vuexlearn 目录之后安装 vuex：<br>这里使用 npm 安装 <code>npm install vuex --save</code> 您也可以使用其他方式安装，具体请参考 vuex 官方文档。</p>
+<p>在安装好 vuex 之后，您就可以使用 <code>npm run dev</code> 命令运行您的 web 应用了。</p>
+<p>现在在 <code>main.js</code> 文件中引入 vuex</p>
+<h3 id="main-js"><a href="#main-js" class="headerlink" title="main.js"></a>main.js</h3><pre><code>import vuex from &#39;vuex&#39;
+Vue.use(vuex);</code></pre><p>在下方添加我们的 vuex 状态树</p>
+<pre><code>var store = new vuex.Store({//store对象
+  state: {
+    states: &#39;turn-on&#39;
+  },
+  mutations: {
+    setTransition(state, states) {
+      state.states = states
+    }
+  }
+})</code></pre><p> <code>state.states</code> 就是用来记录我们目前的切换状态， <code>turn-on</code> 为页面入栈，<code>turn-off</code> 是页面出栈。</p>
+<p><code>setTransition(state, states)</code> 方法用来设置 states 的值，在需要的时候我们会调用它。</p>
+<p>接下来，我们新建一个 <code>common</code> 组件，作为我们的作标题栏</p>
+<h3 id="common-vue"><a href="#common-vue" class="headerlink" title="common.vue"></a>common.vue</h3><pre><code>&lt;template&gt;
+    &lt;div class=&quot;header&quot;&gt;
+        &lt;div class=&quot;left&quot; @click=&quot;back&quot;&gt;
+            back
+        &lt;/div&gt;
+        &lt;div class=&quot;center&quot;&gt;
+            {{title}}
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  data() {
+    return {};
+  },
+  props: [&quot;title&quot;],
+  methods: {
+    back() {
+      this.$store.commit(&quot;setTransition&quot;, &quot;turn-off&quot;);
+      this.$router.back(-1);
+    }
+  }
+};
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+.header {
+  position: fixed;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background-color: rgb(100, 231, 60);
+}
+.clearfix {
+  overflow: auto;
+}
+.left {
+  position: fixed;
+  left: 0px;
+  width: 60px;
+}
+.center {
+  left: 50%;
+  position: fixed;
+}
+&lt;/style&gt;
+</code></pre><p>这里通过 <code>props</code> 拿到 <code>name</code> 的值，渲染在标题栏上</p>
+<p>这里的切换核心就是在点击返回的时候，设置整个页面的动画效果</p>
+<p>新建 4 个页面，其他的页面雷同，所以这里只贴出一个页面</p>
+<h3 id="A-vue"><a href="#A-vue" class="headerlink" title="A.vue"></a>A.vue</h3><pre><code>&lt;template&gt;
+    &lt;div class=&quot;A&quot;&gt;
+        &lt;common title=&quot;a&quot;&gt;&lt;/common&gt;
+        &lt;div class=&quot;bottom&quot;&gt;
+            bottom
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import common from &quot;./common&quot;;
+export default {
+  data() {
+    return {};
+  },
+  components: {
+    common
+  }
+};
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+.A {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(214, 198, 52);
+  position: fixed;
+}
+
+.bottom {
+  width: 100%;
+  height: 50px;
+  background-color: red;
+  position: fixed;
+  bottom: 0px;
+}
+&lt;/style&gt;
+</code></pre><h4 id="App-vue"><a href="#App-vue" class="headerlink" title="App.vue"></a>App.vue</h4><pre><code>&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;router-link to=&quot;/A&quot; @click.native=&quot;clickLink&quot;&gt;A&lt;/router-link&gt;
+    &lt;router-link to=&quot;/B&quot; @click.native=&quot;clickLink&quot;&gt;B&lt;/router-link&gt;
+    &lt;router-link to=&quot;/C&quot; @click.native=&quot;clickLink&quot;&gt;C&lt;/router-link&gt;
+    &lt;router-link to=&quot;/D&quot; @click.native=&quot;clickLink&quot;&gt;D&lt;/router-link&gt;
+    &lt;transition :name=&quot;$store.state.states&quot;&gt;
+      &lt;router-view/&gt;
+    &lt;/transition&gt;
+    &lt;div&gt;Index Page&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  name: &quot;App&quot;,
+  data() {
+    return {
+    };
+  },
+  methods: {
+    clickLink() {
+      this.$store.commit(&quot;setTransition&quot;, &quot;turn-on&quot;);
+    }
+  },
+  mounted() {
+    var _this = this;
+    window.addEventListener(
+      &quot;popstate&quot;,
+      function(e) {
+        _this.$store.commit(&quot;setTransition&quot;, &quot;turn-off&quot;);
+      },
+      false
+    );
+  }
+};
+&lt;/script&gt;
+
+&lt;style&gt;
+* {
+  margin: 0;
+  padding: 0;
+}
+.btn {
+  width: 50%;
+}
+html,
+body,
+#app {
+  height: 100%;
+}
+.turn-on-enter {
+  transform: translate3d(100%, 0, 0);
+}
+.turn-on-leave-to {
+  /* transform: translate3d(-20%, 0, 0); */
+}
+.turn-on-enter-active,
+.turn-on-leave-active {
+  transition: transform 0.4s ease;
+}
+.turn-off-enter {
+  /* transform: translate3d(-20%, 0, 0); */
+}
+.turn-off-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+.turn-off-enter-active,
+.turn-off-leave-active {
+  transition: transform 0.4s ease;
+}
+.turn-off-leave-active {
+  z-index: 2;
+}
+&lt;/style&gt;
+</code></pre><p>切换效果就在这里定义了，通过 vuex 全局保存变量达到页面入栈、出栈的动画效果。</p>
+<p>完整源码在 github 中：</p>
+<p><a href="https://github.com/imfing/vuexlearn" target="_blank" rel="noopener">https://github.com/imfing/vuexlearn</a></p>
+<p>最后在看一下效果图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/4438070-a4e3beb7c1befb3d?imageMogr2/auto-orient/strip" alt="效果"></p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

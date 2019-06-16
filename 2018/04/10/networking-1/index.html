@@ -1,0 +1,99 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>计算机网络-物理层 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2018/04/10/positioning-noema/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/03/23/jvm-memory-area/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  计算机网络-物理层
+                    <div class="date">2018-04-10</div>
+                  </h1>
+          </center>
+
+          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>各种新技术出现都离不开不变的底层原理，弄懂底层原理才能更好的理解与优化出现的新技术。不要当框架小子。 –stackfing</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>物理层考虑的是怎样才能在连接各种计算机的传输媒体上传输数据比特流，而不是指具体的传输媒体。</p>
+<p>物理层的作用是要尽可能的屏蔽掉这些传输媒体和通信手段的差异，使上层服务感觉不到这些差异。（这里有点类似于面向对象中的封装）</p>
+<h2 id="信道"><a href="#信道" class="headerlink" title="信道"></a>信道</h2><p>信道一般是用来表示向某一个方向传送信息的媒体。</p>
+<p>从通信的双方信息交互方式来看，可以有三种基本方式：</p>
+<p>1、单向通信（单工通信），只能有一个方向的通信二没有反向的交互，例如：无线广播、有线广播、电视广播。</p>
+<p>2、双向交替通信（半双工通信），通信双方都可以发送信息，但不能双方同时发送信息</p>
+<p>3、双向同时通信（全双工通信），通信双方可以同时发送和接受信息。</p>
+<h2 id="信道复用技术"><a href="#信道复用技术" class="headerlink" title="信道复用技术"></a>信道复用技术</h2><p>出现原因：</p>
+<p>如果使用早期电话线的方式：通信双方必须有一个通路才能进行通信。那么用户量增多之后，每个客户端都需要相应增加这么多通路，无疑，造价昂贵、复杂，使得信道复用技术出现</p>
+<p>现在来介绍信道复用技术，我们主要了解频分复用、时分复用、统计时分复用技术</p>
+<p>1、频分复用（FDM）</p>
+<p>最简单，用户在分配到一定的频带之后，在通信过程始终占用这个频带，频分复用所有用户在同样的时间占用不同的带宽资源。</p>
+<p>如果用户数增加，复用后的信道总带宽也跟着变宽了，虽然频分复用技术成熟，但是不够灵活。</p>
+<p>2、时分复用（TDM）</p>
+<p>每一个用户所占用的时隙周期性的出现。假如某个用户在具体某个周期里没有使用带宽，而造成占用了其他需要使用带宽的用户的时间</p>
+<p>3、统计时分复用（STDM）</p>
+<p>STDM 是一种改进的时分复用技术，能够明显的提高信道的利用率。</p>
+<p>将所需传输的信息分成小块，附加标记。同一路信号可以占用同一桢中的不同时隙，不同路的信号根据标记加以区分。</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

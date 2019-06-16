@@ -1,0 +1,134 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>JavaEE 项目设计技术与编程标准 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2017/09/25/java-thread-core-chapter1/">
+        ‹
+      </a>
+    </div>
+  
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  JavaEE 项目设计技术与编程标准
+                    <div class="date">2017-09-25</div>
+                  </h1>
+          </center>
+
+          <blockquote>
+<p>编程到接口，而不是编程到一个实现</p>
+</blockquote>
+<p>针对接口编程，有效的在对象之间使用松耦合，有助于灵活性</p>
+<p>优点：</p>
+<ul>
+<li><p>修改某个对象的实现同时不影响调用方的代码</p>
+</li>
+<li><p>实现接口相对自由，不会束缚于继承性的分级结构</p>
+</li>
+<li><p>提供应用接口的简单测试实现，进而其他类的测试变得更方便</p>
+</li>
+</ul>
+<blockquote>
+<p>首选对象合成而非具体继承性</p>
+</blockquote>
+<p>优先使用组合而不是继承</p>
+<p>使用继承可以复用代码，但是对实现类一部分做修改是不可能的，如果这部分东西被封装在接口中，这个问题是可以避免的</p>
+<p>既然知道了继承的缺点，是不是意味着继承就不是一个好东西？并不是！任何东西存在都有它存在的意义。继承是面向对象语音中实现代码复用的最佳手段</p>
+<p>其中有两种设计模式来分别描述这两种区别，分别是：模板方法模式、策略模式</p>
+<p>我们知道模板方法是使用继承，策略模式是典型的使用接口</p>
+<p>在下列情况我们可以优先使用策略模式而不是模板方法模式：</p>
+<ul>
+<li><p>当所有步骤都变化时</p>
+</li>
+<li><p>实现步骤需要独立的继承分级结构时</p>
+</li>
+<li><p>当那些步骤实现可能与其他类相关时</p>
+</li>
+<li><p>当那些步骤可能需要在运行时变化时</p>
+</li>
+<li><p>当相同类型的实现类增加时</p>
+</li>
+</ul>
+<h2 id="编程标准"><a href="#编程标准" class="headerlink" title="编程标准"></a>编程标准</h2><p>** 命名 **</p>
+<blockquote>
+<ul>
+<li>参数赋予有区别的名字，用来消除多义性问题</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>访问实例变量的时候总是使用 this</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>局部变量名应当相当短，而实例变量名是冗长的。（实例变量名应该是以一个小写字母开头的接口或者类名，局部变量名应该在当前上下文表达他们的含义）</li>
+</ul>
+</blockquote>
+<p>** 责任分配 **</p>
+<blockquote>
+<p>一个方法只应该有一项明确的责任，而且所有操作都应该在同一个对象级别上</p>
+</blockquote>
+<p>一个方法的代码长度应该尽量控制在 30 - 40 行之间，超过这阈值就应该修剪再加工</p>
+<p>可以将其中的任务提取到一个私有方法中，就算这个任务只被一个方法调用，也是有意义的（这样做的好处是让代码变得更容易读）</p>
+<p>** 避免代码重复 **</p>
+<p>尽量将重复的代码封装在同一个方法中</p>
+<p>** 避免字面常量 **</p>
+<p>除了众所周知的著名值 0 之外，空值和空字符串在 Java 类内不使用字面常量</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

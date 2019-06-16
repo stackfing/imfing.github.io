@@ -1,0 +1,95 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>Spring Boot + WebSocket 推送好友动态消息 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2019/06/16/java-bytecode-instruction-listings/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/05/22/vuexlearn/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  Spring Boot + WebSocket 推送好友动态消息
+                    <div class="date">2018-05-31</div>
+                  </h1>
+          </center>
+
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近一个项目中一个功能需求是这样的：类似于 QQ 空间的评论、点赞通知功能，需要实时推送消息，第一时间我的脑海里想到的就是 WebSocket。</p>
+<p>心急的朋友可以直接滑动滚动条到下方，文章前面是一些基本介绍。</p>
+<h2 id="为什么是-WebSocket"><a href="#为什么是-WebSocket" class="headerlink" title="为什么是 WebSocket ?"></a>为什么是 WebSocket ?</h2><p>HTTP 协议的特性我们都已经清楚了，客户端浏览器向 HTTP 服务器发送请求，继而 HTTP 服务器将相应的资源发回给客户端这样一个过程中，无论对于客户端还是服务器，都没有必要记录这个过程。</p>
+<p>如果我们需要服务端主动向客户端发送消息时就懵了，因为无状态的特性，我们的服务器无法找到上一次访问的客户端。</p>
+<p>聪明的人应该想到一种方法：客户端需要显示实时消息推送，我在后台提供一个接口，前端通过 ajax 轮训这个接口，一旦接口有数据返回，前端就渲染。这样的做法既简单，又方便，很多程序员喜欢这种写法，但是这样做真的好吗？</p>
+<p>ajax 轮训的本质就是 HTTP 请求，如果需要实时性高的比如在业务产生的瞬间就能得到消息推送，怎么办？调低轮训时间？显然性能就直接下降了。这时候，我们的 WebSocket 就出场了！</p>
+<h2 id="什么是-WebSocket"><a href="#什么是-WebSocket" class="headerlink" title="什么是 WebSocket ?"></a>什么是 WebSocket ?</h2><blockquote>
+<p>WebSocket 协议是基于TCP的一种新的网络协议。它实现了浏览器与服务器全双工(full-duplex)通信——允许服务器主动发送信息给客户端。 – 百度百科</p>
+</blockquote>
+<p>WebSocket 的定义已经很明确了，请注意，上面提到的是：“全双工”，全双工的意思是服务器与客户端可以同时发送消息，也可以同时接受消息。</p>
+<blockquote>
+<p>在实现 Websocket 连线过程中，需要通过浏览器发出 Websocket 连线请求，然后服务器发出回应，这个过程通常称为“握手” 。在 WebSocket API，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。 – 百度百科</p>
+</blockquote>
+<p>服务器与客户端建立了一条连线，这样他们就可以来发送消息了，只要服务器有数据变化就通知客户端。这里要注意的是，客户端与服务器建立的是<strong>一条</strong>连接！</p>
+<h2 id="开始吧！"><a href="#开始吧！" class="headerlink" title="开始吧！"></a>开始吧！</h2><p>在开始之前，您需要有 Spring Boot 的基础。</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

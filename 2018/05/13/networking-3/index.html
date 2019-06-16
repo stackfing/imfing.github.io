@@ -1,0 +1,99 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>计算机网络-网络层（一） - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2018/05/22/vuexlearn/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/04/14/jvm-gc-algorithm/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  计算机网络-网络层（一）
+                    <div class="date">2018-05-13</div>
+                  </h1>
+          </center>
+
+          <p>博客快一个月没写了，今天继续努力。eos大跌，昨晚15美元上车，记录一下，一年后万一发达了呢？ –stackfing</p>
+<h2 id="网络层提供的两种服务"><a href="#网络层提供的两种服务" class="headerlink" title="网络层提供的两种服务"></a>网络层提供的两种服务</h2><p>网络层提供了两种服务<br>1、虚电路服务<br>2、数据报服务</p>
+<p><strong>虚电路服务</strong>是面向连接的。它需要在两端通信之前先建立连接，分组的首部就不需要填写完整的目的主机的地址就可以直接通信。电话服务就是面向连接的：在通信之前由电信网负责把两端进行通信的线路预留出来，在通信时将信息可靠的传输给接收端。面向连接服务需要付出昂贵的资金购买各种设备。</p>
+<p>电话服务是非智能的，没有差错处理能力，而数据报服务是只能的，有很强的差错处理能力。</p>
+<p><strong>数据报服务</strong>是面向无连接的。在互联网先驱设计的时候就提出来这种思路，互联网发展到今天的规模，证明了他们设计思路的正确性。网络层向上层只提供简单灵活的、无连接的、尽最大努力交付的数据报服务。数据报就是我们之前提到的<strong>分组</strong>。成本降低了，运用方式灵活，这是数据报服务的最大优点。</p>
+<p>数据报服务里的分组可以独立选择路由。也就是说各种分组到达目的主机的路径可以是不一致的，容易出现在某个路由传送过程中丢失分组，所以数据报服务只是尽最大努力交付。</p>
+<h2 id="虚拟互联网络"><a href="#虚拟互联网络" class="headerlink" title="虚拟互联网络"></a>虚拟互联网络</h2><p>在世界上需要把不同网络互相连接起来并且能够通信，会遇到很多问题。比如：不同的服务（面向连接服务和面向无连接服务）如何连接起来进行通信？</p>
+<p>在不同设备直接连接起来需要一些中间设备：</p>
+<p>1、物理层使用的中间设备：转发器<br>2、数据链路层使用的中间设备：网桥或桥接器<br>3、网络层使用的中间设备：路由器<br>4、网络层上层使用的中间设备：网关</p>
+<p>通过这些中间设备连接起来组成的网络叫做虚拟互联网络。</p>
+<p>这些连接在虚拟互联网络上的主机使用 IP 协议。这样可以屏蔽各种处于不同网络的主机通信方式不同展现的差异，可以让这些主机就好像在与单个网络上通信一样。</p>
+<p>主机 A 需要与主机 B 通信，A 主机需要查找自己的路由表，看 B 主机是否在同一个网络上，如果在的话，不同经过任何路由，直接交付。如果不在同一个网络，将分组数据发送给某个路由器，那个路由器再进行前面的动作，一直到目的主机所在的网络。</p>
+<h2 id="分类的-IP-地址"><a href="#分类的-IP-地址" class="headerlink" title="分类的 IP 地址"></a>分类的 IP 地址</h2><p>IP 地址经历了三个历史阶段：<br>1、分类的 IP 地址<br>2、子网划分<br>3、构成超网</p>
+<p>这几个阶段的产生原因都是因为  IPv4 地址不够人们使用而产生的。</p>
+<p>IP 地址划分为若干个固定类，每一类地址都由两个固定长度字段组成，第一个字段是<strong>网络号</strong>，标志主机所连接的网络。第二个字段是<strong>主机号</strong>标志主机（或者路由器）。IP 地址在整个互联网范围内是唯一的。</p>
+<p>A类IP：从0.0.0.0 – 127.255.255.255，共有16777216个IP<br>B类IP：从128.0.0.0 – 191.255.255.255，共有65536个IP<br>C类IP：从192.0.0.0 – 223.255.255.255，共有256个IP<br>D类IP：从224.0.0.0 – 239.255.255.255<br>E类IP：从2240.0.0.0 – 255.255.255.255</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/4438070-0449c2085b4845b9.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分类的 IP 地址"></p>
+<h2 id="IP-地址与硬件地址"><a href="#IP-地址与硬件地址" class="headerlink" title="IP 地址与硬件地址"></a>IP 地址与硬件地址</h2><p>MAC 地址也就是所谓的硬件地址，在全球是唯一的，硬件地址是物理层和数据链路层使用的物理地址。而 IP 地址是逻辑地址（使用软件实现的）。</p>
+<p>在数据从高层下到低层， IP 地址交给了数据链路层就会被封装为 MAC 帧。MAC 帧在传送的时候使用的源地址和目的地址都是硬件地址。</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

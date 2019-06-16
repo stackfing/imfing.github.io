@@ -1,0 +1,317 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>Shiro 整合 Spring Boot 控制角色权限 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2018/03/23/jvm-memory-area/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/01/11/same-origin-policy/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  Shiro 整合 Spring Boot 控制角色权限
+                    <div class="date">2018-01-25</div>
+                  </h1>
+          </center>
+
+          <p>安全无处不在，趁着放假读了一下 Shiro 文档，并记录一下 Shiro 整合 Spring Boot 在数据库中根据角色控制访问权限</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Apache Shiro是一个功能强大、灵活的，开源的安全框架。它可以干净利落地处理身份验证、授权、企业会话管理和加密。<br><img src="./ShiroFeatures.png" alt="Shiro Architecture"></p>
+<p>上图是  Shiro 的基本架构</p>
+<h3 id="Authentication（认证）"><a href="#Authentication（认证）" class="headerlink" title="Authentication（认证）"></a>Authentication（认证）</h3><p>有时被称为“登录”，用来证明用户是用户他们自己本人</p>
+<h3 id="Authorization（授权）"><a href="#Authorization（授权）" class="headerlink" title="Authorization（授权）"></a>Authorization（授权）</h3><p>访问控制的过程，即确定“谁”访问“什么”</p>
+<h3 id="Session-Management（会话管理）"><a href="#Session-Management（会话管理）" class="headerlink" title="Session Management（会话管理）"></a>Session Management（会话管理）</h3><p>管理用户特定的会话，在 Shiro 里面可以发现所有的用户的会话信息都会由 Shiro 来进行控制</p>
+<h3 id="Cryptography（加密）"><a href="#Cryptography（加密）" class="headerlink" title="Cryptography（加密）"></a>Cryptography（加密）</h3><p>在对数据源使用加密算法加密的同时，保证易于使用</p>
+<h1 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h1><h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Spring Boot 1.5.9<br>MySQL 5.7<br>Maven 3.5.2<br>Spring Data Jpa<br>Lombok</p>
+<h3 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h3><p>这里只给出主要的 Shiro 依赖</p>
+<pre><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.shiro&lt;/groupId&gt;
+            &lt;artifactId&gt;shiro-spring-boot-starter&lt;/artifactId&gt;
+            &lt;version&gt;1.4.0-RC2&lt;/version&gt;
+        &lt;/dependency&gt;</code></pre><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>我们暂时只需要用户表、角色表，在 Spring boot 中修改配置文件将自动为我们创建数据库表</p>
+<pre><code>server:
+  port: 8888
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/shiro?characterEncoding=utf-8&amp;useSSL=false
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true</code></pre><h3 id="实体"><a href="#实体" class="headerlink" title="实体"></a>实体</h3><h4 id="Role-java"><a href="#Role-java" class="headerlink" title="Role.java"></a>Role.java</h4><pre><code>@Data
+@Entity
+public class Role {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    private Long userId;
+
+    private String role;
+
+}</code></pre><h4 id="User-java"><a href="#User-java" class="headerlink" title="User.java"></a>User.java</h4><pre><code>@Data
+@Entity
+public class User {
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String username;
+
+    private String password;
+
+}</code></pre><h3 id="Realm"><a href="#Realm" class="headerlink" title="Realm"></a>Realm</h3><p>首先建立 Realm 类，继承自 AuthorizingRealm，自定义我们自己的授权和认证的方法。Realm 是可以访问特定于应用程序的安全性数据（如用户，角色和权限）的组件。</p>
+<h4 id="Realm-java"><a href="#Realm-java" class="headerlink" title="Realm.java"></a>Realm.java</h4><pre><code>public class Realm extends AuthorizingRealm {
+
+    @Autowired
+    private UserService userService;
+
+    //授权
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        //从凭证中获得用户名
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        //根据用户名查询用户对象
+        User user = userService.getUserByUserName(username);
+        //查询用户拥有的角色
+        List&lt;Role&gt; list = roleService.findByUserId(user.getId());
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        for (Role role : list) {
+            //赋予用户角色
+            info.addStringPermission(role.getRole());
+        }
+        return info;
+    }
+
+    //认证
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+
+        //获得当前用户的用户名
+        String username = (String) authenticationToken.getPrincipal();
+
+        //从数据库中根据用户名查找用户
+        User user = userService.getUserByUserName(username);
+        if (userService.getUserByUserName(username) == null) {
+            throw new UnknownAccountException(
+                    &quot;没有在本系统中找到对应的用户信息。&quot;);
+        }
+
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getUsername(), user.getPassword(),getName());
+        return info;
+    }
+
+}
+</code></pre><h3 id="Shiro-配置类"><a href="#Shiro-配置类" class="headerlink" title="Shiro 配置类"></a>Shiro 配置类</h3><h4 id="ShiroConfig-java"><a href="#ShiroConfig-java" class="headerlink" title="ShiroConfig.java"></a>ShiroConfig.java</h4><pre><code>@Configuration
+public class ShiroConfig {
+
+    @Bean
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        Map&lt;String, String&gt; filterChainDefinitionMap = new LinkedHashMap&lt;String, String&gt;();
+        //以下是过滤链，按顺序过滤，所以/**需要放最后
+        //开放的静态资源
+        filterChainDefinitionMap.put(&quot;/favicon.ico&quot;, &quot;anon&quot;);//网站图标
+        filterChainDefinitionMap.put(&quot;/**&quot;, &quot;authc&quot;);
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        return shiroFilterFactoryBean;
+    }
+
+
+    @Bean
+    public DefaultWebSecurityManager securityManager() {
+        DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager(myRealm());
+        return defaultWebSecurityManager;
+    }
+
+    @Bean
+    public MyRealm myRealm() {
+        MyRealm myRealm = new MyRealm();
+        return myRealm;
+    }
+}</code></pre><h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><h4 id="UserController-java"><a href="#UserController-java" class="headerlink" title="UserController.java"></a>UserController.java</h4><pre><code>@Controller
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping(&quot;/&quot;)
+    public String index() {
+        return &quot;index&quot;;
+    }
+
+    @GetMapping(&quot;/login&quot;)
+    public String toLogin() {
+        return &quot;login&quot;;
+    }
+
+    @GetMapping(&quot;/admin&quot;)
+    public String admin() {
+        return &quot;admin&quot;;
+    }
+
+    @PostMapping(&quot;/login&quot;)
+    public String doLogin(String username, String password) {
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.login(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return &quot;redirect:admin&quot;;
+    }
+
+    @GetMapping(&quot;/home&quot;)
+    public String home() {
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.checkPermission(&quot;admin&quot;);
+        } catch (UnauthorizedException exception) {
+            System.out.println(&quot;没有足够的权限&quot;);
+        }
+        return &quot;home&quot;;
+    }
+
+    @GetMapping(&quot;/logout&quot;)
+    public String logout() {
+        return &quot;index&quot;;
+    }
+}
+</code></pre><h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><h4 id="UserService-java"><a href="#UserService-java" class="headerlink" title="UserService.java"></a>UserService.java</h4><pre><code>@Service
+public class UserService {
+
+    @Autowired
+    private UserDao userDao;
+
+    public User getUserByUserName(String username) {
+        return userDao.findByUsername(username);
+    }
+
+    @RequiresRoles(&quot;admin&quot;)
+    public void send() {
+        System.out.println(&quot;我现在拥有角色admin，可以执行本条语句&quot;);
+    }
+
+}</code></pre><h3 id="展示层"><a href="#展示层" class="headerlink" title="展示层"></a>展示层</h3><h4 id="admin-html"><a href="#admin-html" class="headerlink" title="admin.html"></a>admin.html</h4><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;html lang=&quot;en&quot;/&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;/&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;
+    &lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;登录&quot; /&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><h4 id="home-html"><a href="#home-html" class="headerlink" title="home.html"></a>home.html</h4><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;html lang=&quot;en&quot;/&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;/&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+home
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><h4 id="index-html"><a href="#index-html" class="headerlink" title="index.html"></a>index.html</h4><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;html lang=&quot;en&quot;/&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;/&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+index
+&lt;a href=&quot;/login&quot;&gt;请登录&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><h4 id="login-html"><a href="#login-html" class="headerlink" title="login.html"></a>login.html</h4><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;html lang=&quot;en&quot;/&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;/&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;form action=&quot;/login&quot; method=&quot;post&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;username&quot; /&gt;
+    &lt;input type=&quot;password&quot; name=&quot;password&quot; /&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;登录&quot; /&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这个小案例实现了根据角色来控制用户访问，其中最重要的就是 Realm，它充当了Shiro与应用安全数据间的“桥梁”或者“连接器”</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

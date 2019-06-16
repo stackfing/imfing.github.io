@@ -1,0 +1,97 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>JVM 学习之 Java 内存区域 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2018/04/10/networking-1/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/01/25/shiro-springboot/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  JVM 学习之 Java 内存区域
+                    <div class="date">2018-03-23</div>
+                  </h1>
+          </center>
+
+          <h2 id="JAVA-运行数据区域"><a href="#JAVA-运行数据区域" class="headerlink" title="JAVA 运行数据区域"></a>JAVA 运行数据区域</h2><h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>一块较小的内存空间，可以当做当前线程所执行的行号指示器，因为处理器在一个确定是时刻只会执行一个线程中的指令，线程切换后，是通过计数器来记录执行痕迹的，因而可以看出，程序计数器是每个线程私有的。</p>
+<h2 id="Java-虚拟机栈"><a href="#Java-虚拟机栈" class="headerlink" title="Java 虚拟机栈"></a>Java 虚拟机栈</h2><p>与程序计数器一样，Java 虚拟机栈也是线程私有的。每个方法执行的时候都会创建一个栈帧用于储存局部变量表、操作数栈、动态链接、方法出口等信息。方法调用到结束就对应一个栈帧的入栈到出栈。</p>
+<p>局部变量表保存了编译器可以运行的各种基本数据类型，还包括了对象的引用。</p>
+<p>如果线程请求栈深度超过虚拟机所允许的深度就会抛出 StackOverflowError 异常。</p>
+<p>如果线程请求拓展无法申请到足够的内存就会抛出 OutOfMemoryError 异常。</p>
+<h2 id="本地方法栈"><a href="#本地方法栈" class="headerlink" title="本地方法栈"></a>本地方法栈</h2><p>本地方法栈与 Java 虚拟机栈的作用很类似，虚拟机栈为虚拟机执行 Java 方法，本地方法栈为虚拟机使用的 Native 方法服务</p>
+<h2 id="Java-堆"><a href="#Java-堆" class="headerlink" title="Java 堆"></a>Java 堆</h2><p>new 出来的对象实例都会保存在 Java 堆中，这是虚拟机中管理内存中最大的一块了，与前面不同，Java 堆是各个线程的共享区域</p>
+<h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>与 Java 堆一样是各个线程的共享区域。</p>
+<p>作用是用于储存已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据</p>
+<h2 id="运行时常量池"><a href="#运行时常量池" class="headerlink" title="运行时常量池"></a>运行时常量池</h2><p>这是方法区的一部分，Class 文件中除了有类的版本、字段、方法、接口等描述信息外还有一项信息是常量池，用于存放编译器生成的各种字面量和符号引用，这部分内容将在类加载后进入方法去的运行时常量池中存放。</p>
+<h2 id="直接内存"><a href="#直接内存" class="headerlink" title="直接内存"></a>直接内存</h2><p>直接内存不是运行时区域的一部分，但是这部分也被频繁使用。</p>
+<h2 id="对象创建过程"><a href="#对象创建过程" class="headerlink" title="对象创建过程"></a>对象创建过程</h2><p>在代码级上使用 <code>new</code> 关键字首先会去检查指令参数是否能在常量池中定位到一个类的符号引用，并且检查个符号引用代表的类是否已被加载、解析和初始化过。</p>
+<p>检查过后虚拟机就会对新生对象进行分配内存，对象所需大小在类加载之后就能完全确定，然后在 Java 堆中划分出一块足够容纳这个对象的区域。</p>
+<p>内存分配完毕之后，虚拟机将分配的内存空间都初始化为零值。</p>
+<p>接下来虚拟机对对象进行必要的设置，例如这个对象是哪个类的实例、如何才能找到类的元数据信息、对象的哈希码、对象的 GC 分代年龄等信息。这些信息都保存在对象的对象头之中。</p>
+<p>以上工作完成之后，对象创建的 <init> 方法还没有执行，所有字段还为零。</init></p>
+<p>执行 <init> 方法之后这样才能算真正可用的对象才算完全产生出来。</init></p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

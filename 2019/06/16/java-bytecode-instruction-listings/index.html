@@ -1,0 +1,1119 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>Java 字节码指令集 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2019/06/16/springbootcore-springbootapplication-annotation/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/05/31/spring-boot-websocket/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  Java 字节码指令集
+                    <div class="date">2019-06-16</div>
+                  </h1>
+          </center>
+
+          <table>
+<thead>
+<tr>
+<th align="left">指令码</th>
+<th align="center">助记符</th>
+<th align="right">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">0×00</td>
+<td align="center">nop</td>
+<td align="right">什么都不做</td>
+</tr>
+<tr>
+<td align="left">0×01</td>
+<td align="center">aconst_null</td>
+<td align="right">将null推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×02</td>
+<td align="center">iconst_m1</td>
+<td align="right">将int型-1推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×03</td>
+<td align="center">iconst_0</td>
+<td align="right">将int型0推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×04</td>
+<td align="center">iconst_1</td>
+<td align="right">将int型1推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×05</td>
+<td align="center">iconst_2</td>
+<td align="right">将int型2推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×06</td>
+<td align="center">iconst_3</td>
+<td align="right">将int型3推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×07</td>
+<td align="center">iconst_4</td>
+<td align="right">将int型4推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×08</td>
+<td align="center">iconst_5</td>
+<td align="right">将int型5推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×09</td>
+<td align="center">lconst_0</td>
+<td align="right">将long型0推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x0a</td>
+<td align="center">lconst_1</td>
+<td align="right">将long型1推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x0b</td>
+<td align="center">fconst_0</td>
+<td align="right">将float型0推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x0c</td>
+<td align="center">fconst_1</td>
+<td align="right">将float型1推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x0d</td>
+<td align="center">fconst_2</td>
+<td align="right">将float型2推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x0e</td>
+<td align="center">dconst_0</td>
+<td align="right">将double型0推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x0f</td>
+<td align="center">dconst_1</td>
+<td align="right">将double型1推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×10</td>
+<td align="center">bipush</td>
+<td align="right">将单字节的常量值(-128~127)推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×11</td>
+<td align="center">sipush</td>
+<td align="right">将一个短整型常量值(-32768~32767)推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×12</td>
+<td align="center">ldc</td>
+<td align="right">将int, float或String型常量值从常量池中推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×13</td>
+<td align="center">ldc_w</td>
+<td align="right">将int, float或String型常量值从常量池中推送至栈顶（宽索引）</td>
+</tr>
+<tr>
+<td align="left">0×14</td>
+<td align="center">ldc2_w</td>
+<td align="right">将long或double型常量值从常量池中推送至栈顶（宽索引）</td>
+</tr>
+<tr>
+<td align="left">0×15</td>
+<td align="center">iload</td>
+<td align="right">将指定的int型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×16</td>
+<td align="center">lload</td>
+<td align="right">将指定的long型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×17</td>
+<td align="center">fload</td>
+<td align="right">将指定的float型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×18</td>
+<td align="center">dload</td>
+<td align="right">将指定的double型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×19</td>
+<td align="center">aload</td>
+<td align="right">将指定的引用类型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x1a</td>
+<td align="center">iload_0</td>
+<td align="right">将第0个int型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x1b</td>
+<td align="center">iload_1</td>
+<td align="right">将第1个int型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x1c</td>
+<td align="center">iload_2</td>
+<td align="right">将第2个int型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x1d</td>
+<td align="center">iload_3</td>
+<td align="right">将第3个int型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x1e</td>
+<td align="center">lload_0</td>
+<td align="right">将第0个long型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x1f</td>
+<td align="center">lload_1</td>
+<td align="right">将第1个long型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×20</td>
+<td align="center">lload_2</td>
+<td align="right">将第2个long型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×21</td>
+<td align="center">lload_3</td>
+<td align="right">将第3个long型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×22</td>
+<td align="center">fload_0</td>
+<td align="right">将第0个float型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×23</td>
+<td align="center">fload_1</td>
+<td align="right">将第1个float型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×24</td>
+<td align="center">fload_2</td>
+<td align="right">将第2个float型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×25</td>
+<td align="center">fload_3</td>
+<td align="right">将第3个float型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×26</td>
+<td align="center">dload_0</td>
+<td align="right">将第0个double型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×27</td>
+<td align="center">dload_1</td>
+<td align="right">将第1个double型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×28</td>
+<td align="center">dload_2</td>
+<td align="right">将第2个double型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×29</td>
+<td align="center">dload_3</td>
+<td align="right">将第3个double型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x2a</td>
+<td align="center">aload_0</td>
+<td align="right">将第0个引用类型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x2b</td>
+<td align="center">aload_1</td>
+<td align="right">将第1个引用类型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x2c</td>
+<td align="center">aload_2</td>
+<td align="right">将第2个引用类型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x2d</td>
+<td align="center">aload_3</td>
+<td align="right">将第3个引用类型本地变量推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x2e</td>
+<td align="center">iaload</td>
+<td align="right">将int型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0x2f</td>
+<td align="center">laload</td>
+<td align="right">将long型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×30</td>
+<td align="center">faload</td>
+<td align="right">将float型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×31</td>
+<td align="center">daload</td>
+<td align="right">将double型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×32</td>
+<td align="center">aaload</td>
+<td align="right">将引用型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×33</td>
+<td align="center">baload</td>
+<td align="right">将boolean或byte型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×34</td>
+<td align="center">caload</td>
+<td align="right">将char型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×35</td>
+<td align="center">saload</td>
+<td align="right">将short型数组指定索引的值推送至栈顶</td>
+</tr>
+<tr>
+<td align="left">0×36</td>
+<td align="center">istore</td>
+<td align="right">将栈顶int型数值存入指定本地变量</td>
+</tr>
+<tr>
+<td align="left">0×37</td>
+<td align="center">lstore</td>
+<td align="right">将栈顶long型数值存入指定本地变量</td>
+</tr>
+<tr>
+<td align="left">0×38</td>
+<td align="center">fstore</td>
+<td align="right">将栈顶float型数值存入指定本地变量</td>
+</tr>
+<tr>
+<td align="left">0×39</td>
+<td align="center">dstore</td>
+<td align="right">将栈顶double型数值存入指定本地变量</td>
+</tr>
+<tr>
+<td align="left">0x3a</td>
+<td align="center">astore</td>
+<td align="right">将栈顶引用型数值存入指定本地变量</td>
+</tr>
+<tr>
+<td align="left">0x3b</td>
+<td align="center">istore_0</td>
+<td align="right">将栈顶int型数值存入第0个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x3c</td>
+<td align="center">istore_1</td>
+<td align="right">将栈顶int型数值存入第1个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x3d</td>
+<td align="center">istore_2</td>
+<td align="right">将栈顶int型数值存入第2个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x3e</td>
+<td align="center">istore_3</td>
+<td align="right">将栈顶int型数值存入第3个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x3f</td>
+<td align="center">lstore_0</td>
+<td align="right">将栈顶long型数值存入第0个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×40</td>
+<td align="center">lstore_1</td>
+<td align="right">将栈顶long型数值存入第1个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×41</td>
+<td align="center">lstore_2</td>
+<td align="right">将栈顶long型数值存入第2个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×42</td>
+<td align="center">lstore_3</td>
+<td align="right">将栈顶long型数值存入第3个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×43</td>
+<td align="center">fstore_0</td>
+<td align="right">将栈顶float型数值存入第0个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×44</td>
+<td align="center">fstore_1</td>
+<td align="right">将栈顶float型数值存入第1个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×45</td>
+<td align="center">fstore_2</td>
+<td align="right">将栈顶float型数值存入第2个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×46</td>
+<td align="center">fstore_3</td>
+<td align="right">将栈顶float型数值存入第3个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×47</td>
+<td align="center">dstore_0</td>
+<td align="right">将栈顶double型数值存入第0个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×48</td>
+<td align="center">dstore_1</td>
+<td align="right">将栈顶double型数值存入第1个本地变量</td>
+</tr>
+<tr>
+<td align="left">0×49</td>
+<td align="center">dstore_2</td>
+<td align="right">将栈顶double型数值存入第2个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x4a</td>
+<td align="center">dstore_3</td>
+<td align="right">将栈顶double型数值存入第3个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x4b</td>
+<td align="center">astore_0</td>
+<td align="right">将栈顶引用型数值存入第0个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x4c</td>
+<td align="center">astore_1</td>
+<td align="right">将栈顶引用型数值存入第1个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x4d</td>
+<td align="center">astore_2</td>
+<td align="right">将栈顶引用型数值存入第2个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x4e</td>
+<td align="center">astore_3</td>
+<td align="right">将栈顶引用型数值存入第3个本地变量</td>
+</tr>
+<tr>
+<td align="left">0x4f</td>
+<td align="center">iastore</td>
+<td align="right">将栈顶int型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×50</td>
+<td align="center">lastore</td>
+<td align="right">将栈顶long型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×51</td>
+<td align="center">fastore</td>
+<td align="right">将栈顶float型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×52</td>
+<td align="center">dastore</td>
+<td align="right">将栈顶double型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×53</td>
+<td align="center">aastore</td>
+<td align="right">将栈顶引用型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×54</td>
+<td align="center">bastore</td>
+<td align="right">将栈顶boolean或byte型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×55</td>
+<td align="center">castore</td>
+<td align="right">将栈顶char型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×56</td>
+<td align="center">sastore</td>
+<td align="right">将栈顶short型数值存入指定数组的指定索引位置</td>
+</tr>
+<tr>
+<td align="left">0×57</td>
+<td align="center">pop</td>
+<td align="right">将栈顶数值弹出 (数值不能是long或double类型的)</td>
+</tr>
+<tr>
+<td align="left">0×58</td>
+<td align="center">pop2</td>
+<td align="right">将栈顶的一个（long或double类型的)或两个数值弹出（其它）</td>
+</tr>
+<tr>
+<td align="left">0×59</td>
+<td align="center">dup</td>
+<td align="right">复制栈顶数值并将复制值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x5a</td>
+<td align="center">dup_x1</td>
+<td align="right">复制栈顶数值并将两个复制值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x5b</td>
+<td align="center">dup_x2</td>
+<td align="right">复制栈顶数值并将三个（或两个）复制值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x5c</td>
+<td align="center">dup2</td>
+<td align="right">复制栈顶一个（long或double类型的)或两个（其它）数值并将复制值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x5d</td>
+<td align="center">dup2_x1</td>
+<td align="right">&lt;待补充&gt;</td>
+</tr>
+<tr>
+<td align="left">0x5e</td>
+<td align="center">dup2_x2</td>
+<td align="right">&lt;待补充&gt;</td>
+</tr>
+<tr>
+<td align="left">0x5f</td>
+<td align="center">swap</td>
+<td align="right">将栈最顶端的两个数值互换(数值不能是long或double类型的)</td>
+</tr>
+<tr>
+<td align="left">0×60</td>
+<td align="center">iadd</td>
+<td align="right">将栈顶两int型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×61</td>
+<td align="center">ladd</td>
+<td align="right">将栈顶两long型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×62</td>
+<td align="center">fadd</td>
+<td align="right">将栈顶两float型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×63</td>
+<td align="center">dadd</td>
+<td align="right">将栈顶两double型数值相加并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×64</td>
+<td align="center">isub</td>
+<td align="right">将栈顶两int型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×65</td>
+<td align="center">lsub</td>
+<td align="right">将栈顶两long型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×66</td>
+<td align="center">fsub</td>
+<td align="right">将栈顶两float型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×67</td>
+<td align="center">dsub</td>
+<td align="right">将栈顶两double型数值相减并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×68</td>
+<td align="center">imul</td>
+<td align="right">将栈顶两int型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×69</td>
+<td align="center">lmul</td>
+<td align="right">将栈顶两long型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x6a</td>
+<td align="center">fmul</td>
+<td align="right">将栈顶两float型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x6b</td>
+<td align="center">dmul</td>
+<td align="right">将栈顶两double型数值相乘并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x6c</td>
+<td align="center">idiv</td>
+<td align="right">将栈顶两int型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x6d</td>
+<td align="center">ldiv</td>
+<td align="right">将栈顶两long型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x6e</td>
+<td align="center">fdiv</td>
+<td align="right">将栈顶两float型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x6f</td>
+<td align="center">ddiv</td>
+<td align="right">将栈顶两double型数值相除并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×70</td>
+<td align="center">irem</td>
+<td align="right">将栈顶两int型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×71</td>
+<td align="center">lrem</td>
+<td align="right">将栈顶两long型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×72</td>
+<td align="center">frem</td>
+<td align="right">将栈顶两float型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×73</td>
+<td align="center">drem</td>
+<td align="right">将栈顶两double型数值作取模运算并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×74</td>
+<td align="center">ineg</td>
+<td align="right">将栈顶int型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×75</td>
+<td align="center">lneg</td>
+<td align="right">将栈顶long型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×76</td>
+<td align="center">fneg</td>
+<td align="right">将栈顶float型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×77</td>
+<td align="center">dneg</td>
+<td align="right">将栈顶double型数值取负并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×78</td>
+<td align="center">ishl</td>
+<td align="right">将int型数值左移位指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×79</td>
+<td align="center">lshl</td>
+<td align="right">将long型数值左移位指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x7a</td>
+<td align="center">ishr</td>
+<td align="right">将int型数值右（符号）移位指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x7b</td>
+<td align="center">lshr</td>
+<td align="right">将long型数值右（符号）移位指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x7c</td>
+<td align="center">iushr</td>
+<td align="right">将int型数值右（无符号）移位指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x7d</td>
+<td align="center">lushr</td>
+<td align="right">将long型数值右（无符号）移位指定位数并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x7e</td>
+<td align="center">iand</td>
+<td align="right">将栈顶两int型数值作“按位与”并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x7f</td>
+<td align="center">land</td>
+<td align="right">将栈顶两long型数值作“按位与”并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×80</td>
+<td align="center">ior</td>
+<td align="right">将栈顶两int型数值作“按位或”并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×81</td>
+<td align="center">lor</td>
+<td align="right">将栈顶两long型数值作“按位或”并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×82</td>
+<td align="center">ixor</td>
+<td align="right">将栈顶两int型数值作“按位异或”并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×83</td>
+<td align="center">lxor</td>
+<td align="right">将栈顶两long型数值作“按位异或”并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×84</td>
+<td align="center">iinc</td>
+<td align="right">将指定int型变量增加指定值，可以有两个变量，分别表示index, const，index指第index个int型本地变量，const增加的值</td>
+</tr>
+<tr>
+<td align="left">0×85</td>
+<td align="center">i2l</td>
+<td align="right">将栈顶int型数值强制转换成long型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×86</td>
+<td align="center">i2f</td>
+<td align="right">将栈顶int型数值强制转换成float型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×87</td>
+<td align="center">i2d</td>
+<td align="right">将栈顶int型数值强制转换成double型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×88</td>
+<td align="center">l2i</td>
+<td align="right">将栈顶long型数值强制转换成int型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×89</td>
+<td align="center">l2f</td>
+<td align="right">将栈顶long型数值强制转换成float型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x8a</td>
+<td align="center">l2d</td>
+<td align="right">将栈顶long型数值强制转换成double型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x8b</td>
+<td align="center">f2i</td>
+<td align="right">将栈顶float型数值强制转换成int型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x8c</td>
+<td align="center">f2l</td>
+<td align="right">将栈顶float型数值强制转换成long型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x8d</td>
+<td align="center">f2d</td>
+<td align="right">将栈顶float型数值强制转换成double型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x8e</td>
+<td align="center">d2i</td>
+<td align="right">将栈顶double型数值强制转换成int型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0x8f</td>
+<td align="center">d2l</td>
+<td align="right">将栈顶double型数值强制转换成long型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×90</td>
+<td align="center">d2f</td>
+<td align="right">将栈顶double型数值强制转换成float型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×91</td>
+<td align="center">i2b</td>
+<td align="right">将栈顶int型数值强制转换成byte型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×92</td>
+<td align="center">i2c</td>
+<td align="right">将栈顶int型数值强制转换成char型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×93</td>
+<td align="center">i2s</td>
+<td align="right">将栈顶int型数值强制转换成short型数值并将结果压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×94</td>
+<td align="center">lcmp</td>
+<td align="right">比较栈顶两long型数值大小，并将结果（1，0，-1）压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×95</td>
+<td align="center">fcmpl</td>
+<td align="right">比较栈顶两float型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将-1压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×96</td>
+<td align="center">fcmpg</td>
+<td align="right">比较栈顶两float型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将1压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×97</td>
+<td align="center">dcmpl</td>
+<td align="right">比较栈顶两double型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将-1压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×98</td>
+<td align="center">dcmpg</td>
+<td align="right">比较栈顶两double型数值大小，并将结果（1，0，-1）压入栈顶；当其中一个数值为NaN时，将1压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0×99</td>
+<td align="center">ifeq</td>
+<td align="right">当栈顶int型数值等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0x9a</td>
+<td align="center">ifne</td>
+<td align="right">当栈顶int型数值不等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0x9b</td>
+<td align="center">iflt</td>
+<td align="right">当栈顶int型数值小于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0x9c</td>
+<td align="center">ifge</td>
+<td align="right">当栈顶int型数值大于等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0x9d</td>
+<td align="center">ifgt</td>
+<td align="right">当栈顶int型数值大于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0x9e</td>
+<td align="center">ifle</td>
+<td align="right">当栈顶int型数值小于等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0x9f</td>
+<td align="center">if_icmpeq</td>
+<td align="right">比较栈顶两int型数值大小，当结果等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa0</td>
+<td align="center">if_icmpne</td>
+<td align="right">比较栈顶两int型数值大小，当结果不等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa1</td>
+<td align="center">if_icmplt</td>
+<td align="right">比较栈顶两int型数值大小，当结果小于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa2</td>
+<td align="center">if_icmpge</td>
+<td align="right">比较栈顶两int型数值大小，当结果大于等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa3</td>
+<td align="center">if_icmpgt</td>
+<td align="right">比较栈顶两int型数值大小，当结果大于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa4</td>
+<td align="center">if_icmple</td>
+<td align="right">比较栈顶两int型数值大小，当结果小于等于0时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa5</td>
+<td align="center">if_acmpeq</td>
+<td align="right">比较栈顶两引用型数值，当结果相等时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa6</td>
+<td align="center">if_acmpne</td>
+<td align="right">比较栈顶两引用型数值，当结果不相等时跳转</td>
+</tr>
+<tr>
+<td align="left">0xa7</td>
+<td align="center">goto</td>
+<td align="right">无条件跳转</td>
+</tr>
+<tr>
+<td align="left">0xa8</td>
+<td align="center">jsr</td>
+<td align="right">跳转至指定16位offset位置，并将jsr下一条指令地址压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xa9</td>
+<td align="center">ret</td>
+<td align="right">返回至本地变量指定的index的指令位置（一般与jsr, jsr_w联合使用）</td>
+</tr>
+<tr>
+<td align="left">0xaa</td>
+<td align="center">tableswitch</td>
+<td align="right">用于switch条件跳转，case值连续（可变长度指令）</td>
+</tr>
+<tr>
+<td align="left">0xab</td>
+<td align="center">lookupswitch</td>
+<td align="right">用于switch条件跳转，case值不连续（可变长度指令）</td>
+</tr>
+<tr>
+<td align="left">0xac</td>
+<td align="center">ireturn</td>
+<td align="right">从当前方法返回int</td>
+</tr>
+<tr>
+<td align="left">0xad</td>
+<td align="center">lreturn</td>
+<td align="right">从当前方法返回long</td>
+</tr>
+<tr>
+<td align="left">0xae</td>
+<td align="center">freturn</td>
+<td align="right">从当前方法返回float</td>
+</tr>
+<tr>
+<td align="left">0xaf</td>
+<td align="center">dreturn</td>
+<td align="right">从当前方法返回double</td>
+</tr>
+<tr>
+<td align="left">0xb0</td>
+<td align="center">areturn</td>
+<td align="right">从当前方法返回对象引用</td>
+</tr>
+<tr>
+<td align="left">0xb1</td>
+<td align="center">return</td>
+<td align="right">从当前方法返回void</td>
+</tr>
+<tr>
+<td align="left">0xb2</td>
+<td align="center">getstatic</td>
+<td align="right">获取指定类的静态域，并将其值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xb3</td>
+<td align="center">putstatic</td>
+<td align="right">为指定的类的静态域赋值</td>
+</tr>
+<tr>
+<td align="left">0xb4</td>
+<td align="center">getfield</td>
+<td align="right">获取指定类的实例域，并将其值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xb5</td>
+<td align="center">putfield</td>
+<td align="right">为指定的类的实例域赋值</td>
+</tr>
+<tr>
+<td align="left">0xb6</td>
+<td align="center">invokevirtual</td>
+<td align="right">调用实例方法</td>
+</tr>
+<tr>
+<td align="left">0xb7</td>
+<td align="center">invokespecial</td>
+<td align="right">调用超类构造方法，实例初始化方法，私有方法</td>
+</tr>
+<tr>
+<td align="left">0xb8</td>
+<td align="center">invokestatic</td>
+<td align="right">调用静态方法</td>
+</tr>
+<tr>
+<td align="left">0xb9</td>
+<td align="center">invokeinterface</td>
+<td align="right">调用接口方法</td>
+</tr>
+<tr>
+<td align="left">0xba</td>
+<td align="center">–</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="left">0xbb</td>
+<td align="center">new</td>
+<td align="right">创建一个对象，并将其引用值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xbc</td>
+<td align="center">newarray</td>
+<td align="right">创建一个指定原始类型（如int, float, char…）的数组，并将其引用值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xbd</td>
+<td align="center">anewarray</td>
+<td align="right">创建一个引用型（如类，接口，数组）的数组，并将其引用值压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xbe</td>
+<td align="center">arraylength</td>
+<td align="right">获得数组的长度值并压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xbf</td>
+<td align="center">athrow</td>
+<td align="right">将栈顶的异常抛出</td>
+</tr>
+<tr>
+<td align="left">0xc0</td>
+<td align="center">checkcast</td>
+<td align="right">检验类型转换，检验未通过将抛出ClassCastException</td>
+</tr>
+<tr>
+<td align="left">0xc1</td>
+<td align="center">instanceof</td>
+<td align="right">检验对象是否是指定的类的实例，如果是将1压入栈顶，否则将0压入栈顶</td>
+</tr>
+<tr>
+<td align="left">0xc2</td>
+<td align="center">monitorenter</td>
+<td align="right">获得对象的锁，用于同步方法或同步块</td>
+</tr>
+<tr>
+<td align="left">0xc3</td>
+<td align="center">monitorexit</td>
+<td align="right">释放对象的锁，用于同步方法或同步块</td>
+</tr>
+<tr>
+<td align="left">0xc4</td>
+<td align="center">wide</td>
+<td align="right">当本地变量的索引超过255时使用该指令扩展索引宽度。</td>
+</tr>
+<tr>
+<td align="left">0xc5</td>
+<td align="center">multianewarray</td>
+<td align="right">create a new array of dimensions dimensions with elements of type identified by class reference in constant pool index (indexbyte1 &lt;&lt; 8 + indexbyte2); the sizes of each dimension is identified by count1, [count2, etc.]</td>
+</tr>
+<tr>
+<td align="left">0xc6</td>
+<td align="center">ifnull</td>
+<td align="right">if value is null, branch to instruction at branchoffset (signed short constructed from unsigned bytes branchbyte1 &lt;&lt; 8 + branchbyte2)</td>
+</tr>
+<tr>
+<td align="left">0xc7</td>
+<td align="center">ifnonnull</td>
+<td align="right">if value is not null, branch to instruction at branchoffset (signed short constructed from unsigned bytes branchbyte1 &lt;&lt; 8 + branchbyte2)</td>
+</tr>
+<tr>
+<td align="left">0xc8</td>
+<td align="center">goto_w</td>
+<td align="right">goes to another instruction at branchoffset (signed int constructed from unsigned bytes branchbyte1 &lt;&lt; 24 + branchbyte2 &lt;&lt; 16 + branchbyte3 &lt;&lt; 8 + branchbyte4)</td>
+</tr>
+<tr>
+<td align="left">0xc9</td>
+<td align="center">jsr_w</td>
+<td align="right">jump to subroutine at branchoffset (signed int constructed from unsigned bytes branchbyte1 &lt;&lt; 24 + branchbyte2 &lt;&lt; 16 + branchbyte3 &lt;&lt; 8 + branchbyte4) and place the return address on the stack</td>
+</tr>
+<tr>
+<td align="left">0xca</td>
+<td align="center">breakpoint</td>
+<td align="right">reserved for breakpoints in Java debuggers; should not appear in any class file</td>
+</tr>
+<tr>
+<td align="left">0xcb-0xfd    未命名</td>
+<td align="center">these values are currently unassigned for opcodes and are reserved for future use</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="left">0xfe</td>
+<td align="center">impdep1</td>
+<td align="right">reserved for implementation-dependent operations within debuggers; should not appear in any class file</td>
+</tr>
+<tr>
+<td align="left">0xff</td>
+<td align="center">impdep2</td>
+<td align="right">reserved for implementation-dependent operations within debuggers; should not appear in any class file</td>
+</tr>
+</tbody></table>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

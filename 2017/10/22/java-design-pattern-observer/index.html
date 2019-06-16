@@ -1,0 +1,153 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>Java 设计模式——观察者模式(Observer) - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2017/10/23/where-is-the-time/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2017/10/22/java-design-strategy/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  Java 设计模式——观察者模式(Observer)
+                    <div class="date">2017-10-22</div>
+                  </h1>
+          </center>
+
+          <h2 id="基本简介"><a href="#基本简介" class="headerlink" title="基本简介"></a>基本简介</h2><p>观察者模式定义了对象之间一对多的依赖，这样一个对象状态改变了，他的依赖者就会收到通知并且自动更新</p>
+<p>例如：通常数据改变了，界面会刷新数据显示区域，此时，数据就扮演了被观察者的角色，而界面扮演的是观察者的角色。再举一个例子：微信公众号是被观察者，微信用户是观察者，公众号更新了消息就会通知这些微信用户。</p>
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p><img src="/images/java-design-pattern/observer/diagram.jpg" alt="类图"></p>
+<p>Subject: 抽象主题接口，对象使用这个接口注册为观察者</p>
+<p>ConcreteSubject: 具体的主题接口</p>
+<p>Observer: 所有观察者必须实现这个接口，如果主题更新了会调用 update() 方法</p>
+<p>ConcreteObserver: 具体观察者</p>
+<h2 id="简单实现"><a href="#简单实现" class="headerlink" title="简单实现"></a>简单实现</h2><p><strong>抽象观察者 ( Observer )</strong></p>
+<blockquote>
+<p>Observer.java</p>
+</blockquote>
+<pre><code>//抽象观察者
+public interface Observer {
+    void update(String message);
+}</code></pre><p><strong>抽象被观察者 ( Subject )</strong></p>
+<blockquote>
+<p>Subject.java</p>
+</blockquote>
+<pre><code>//抽象被观察者
+public interface Subject {
+
+    void attach(Observer observer);
+
+    void detach(Observer observer);
+
+    void subNotify();
+}</code></pre><p><strong>具体观察者 ( ConcrereObserver )</strong></p>
+<blockquote>
+<p>User.java</p>
+</blockquote>
+<pre><code>public class User implements Observer {
+
+    private String name;
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(String message) {
+        System.out.println(&quot;您好 &quot; + name + &quot; 我发布了一篇新的文章，请查看&quot;);
+    }
+
+}</code></pre><p>**具体被观察者 ( ConcrereSubject )</p>
+<blockquote>
+<p>WeixinSubject.java</p>
+</blockquote>
+<pre><code>public class WeixinSubject implements Subject {
+
+    private List&lt;Observer&gt; userList = new ArrayList&lt;Observer&gt;();
+
+    @Override
+    public void attach(Observer observer) {
+        userList.add(observer);
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        userList.remove(observer);
+    }
+
+    @Override
+    public void subNotify() {
+        for(Observer observer : userList) {
+            observer.update(&quot;你好，我发布了一篇新文章&quot;);
+        }
+    }
+
+}</code></pre><p><strong>运行结果</strong>：</p>
+<p><img src="/images/java-design-pattern/observer/result.png" alt="运行结果"></p>
+<p>观察者将自己注册到被观察者的容器中时，被观察者不应该过问观察者的具体类型，而是应该使用观察者的接口。这样的优点是：假定程序中还有别的观察者，那么只要这个观察者也是相同的接口实现即可。一个被观察者可以对应多个观察者，当被观察者发生变化的时候，他可以将消息一一通知给所有的观察者。基于接口，而不是具体的实现——这一点为程序提供了更大的灵活性</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>解除耦合，让耦合的双方都依赖于抽象，从而使得各自的变换都不会影响另一边的变换</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>在应用观察者模式时需要考虑一下开发效率和运行效率的问题，程序中包括一个被观察者、多个观察者，开发、调试等内容会比较复杂，而且在Java中消息的通知一般是顺序执行，那么一个观察者卡顿，会影响整体的执行效率，在这种情况下，一般会采用异步实现</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>HTTP 协议 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2017/12/13/2017-over/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2017/11/14/activiti-getting-started/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  HTTP 协议
+                    <div class="date">2017-11-18</div>
+                  </h1>
+          </center>
+
+          <h1 id="HTTP-请求消息"><a href="#HTTP-请求消息" class="headerlink" title="HTTP 请求消息"></a>HTTP 请求消息</h1><h2 id="请求行-Request-Line"><a href="#请求行-Request-Line" class="headerlink" title="请求行 Request Line:"></a>请求行 Request Line:</h2><p>第一行叫<code>请求行</code>，请求行的语法是： <code>request-method-name request-URI HTTP-version</code></p>
+<p>request-method-name: http 请求定义了一些请求方法，例如： GET,POST,HEAD,OPTIONS</p>
+<p>request-URI:指定请求的资源</p>
+<p>HTTP-version:现在有两个版本正在使用： HTTP/1.0 and HTTP/1.1</p>
+<p>例如以下都是请求行：</p>
+<pre><code>GET /test.html HTTP/1.1
+HEAD /query.html HTTP/1.0
+POST /index.html HTTP/1.1</code></pre><h2 id="请求头-Request-Headeers"><a href="#请求头-Request-Headeers" class="headerlink" title="请求头 Request Headeers"></a>请求头 Request Headeers</h2><p>请求头以<code>名称:值</code>的形式出现，可以有多个值，用逗号分割</p>
+<p>例如：</p>
+<pre><code>Host: www.xyz.com
+Connection: Keep-Alive
+Accept: image/gif, image/jpeg, */*
+Accept-Language: us-en, fr, cn</code></pre><h1 id="HTTP-响应消息"><a href="#HTTP-响应消息" class="headerlink" title="HTTP 响应消息"></a>HTTP 响应消息</h1><h2 id="状态行-Status-Line"><a href="#状态行-Status-Line" class="headerlink" title="状态行 Status Line"></a>状态行 Status Line</h2><p>第一行叫<code>状态行</code>，状态行的语法是：<br><code>HTTP-version status-code reason-phrase</code></p>
+<p>HTTP-version: HTTP 版本号</p>
+<p>status-code: 3 位数的状态码</p>
+<p>reason-phrase： 对状态码的简短解释</p>
+<p>例如以下都是状态行：</p>
+<pre><code>HTTP/1.1 200 OK
+HTTP/1.0 404 Not Found
+HTTP/1.1 403 Forbidden</code></pre><h2 id="响应头-Reponse-Header"><a href="#响应头-Reponse-Header" class="headerlink" title="响应头 Reponse Header"></a>响应头 Reponse Header</h2><p>与请求头一样，响应头也是以<code>名称:值</code>的形式出现，可以有多个值，用逗号分割</p>
+<p>以下是例子：</p>
+<pre><code>Content-Type: text/html
+Content-Length: 35
+Connection: Keep-Alive
+Keep-Alive: timeout=15, max=100</code></pre><h1 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h1><h2 id="GET"><a href="#GET" class="headerlink" title="GET"></a>GET</h2><p>GET 是最常见的 HTTP 请求方法，客户端可以使用 GET 请求方法来从 HTTP 服务器请求一些资源</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

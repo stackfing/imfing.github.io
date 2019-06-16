@@ -1,0 +1,103 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>Docker 学习笔记 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2017/10/22/java-design-strategy/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2017/09/25/java-thread-core-chapter1/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  Docker 学习笔记
+                    <div class="date">2017-10-20</div>
+                  </h1>
+          </center>
+
+          <p>批量全部删除容器</p>
+<p>docker rm <code>docker ps -a |awk &#39;{print $1}&#39; | grep [0-9a-z]</code></p>
+<p>运行 <code>docker run -it 容器名</code></p>
+<p>查看运行的容器 <code>docker ps</code></p>
+<p>打开并且映射端口 <code>docker run -it -p xxxx:yyyy</code> 镜像名</p>
+<p>查看某个容器占用的端口 <code>docker port 容器id</code></p>
+<p>查看所有已经创建的容器 <code>docker ps -a</code></p>
+<hr>
+<p>获取image <code>docker pull</code></p>
+<p>创建image <code>docker build</code></p>
+<p>删除contianer <code>docker rm</code></p>
+<p>删除 image <code>docker rmi</code></p>
+<p>在host和container之间拷贝文件 <code>docker cp</code></p>
+<p>保存为新的image <code>docker commit</code></p>
+<hr>
+<p>Dockerfile</p>
+<p>创建一个 Dockerfile</p>
+<p>编辑 Dockerfile</p>
+<p>输入以下代码</p>
+<pre><code>FROM alpine:latest
+MAINTAINER xbf
+CMD echo &quot;hello docker&quot;</code></pre><p>docker build -t hello_docker . </p>
+<p>-t 参数为给这个镜像一个标签名，名为 hello_docker</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>

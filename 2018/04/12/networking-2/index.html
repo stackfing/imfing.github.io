@@ -1,0 +1,116 @@
+<html>
+  <head><meta name="generator" content="Hexo 3.8.0">
+    <title>计算机网络-数据链路层 - StackFing</title>
+    <link href="/images/logo.png" rel="shortcut icon">
+<link href rel="alternate" type="application/rss+xml">
+<link rel="stylesheet" href="//cdn.bootcss.com/highlight.js/9.2.0/styles/github.min.css">
+<script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/highlight.css">
+<link rel="stylesheet" href="/css/responsive.css">
+<script src="/js/jquery.js"></script>
+<script src="/js/basics.js"></script>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+<meta content="text/html; charset=utf-8" http-equiv="content-type">
+
+
+  </head>
+  <body>
+    <header>
+  <a id="go-back-home" href="/"><img src="/images/logo.png" alt="Home" width="60" height="60"></a>
+  <p>StackFing</p>
+  <p><span style="font-size:12px;"></span></p>
+</header>
+
+    <div id="container">
+      <div class="block">
+  
+    <a class="main" href="/">Home</a>
+  
+    <a class="main" href="/about">About</a>
+  
+</div>
+
+      <section class="paging">
+  
+    <div class="left">
+      <a href="/2018/04/14/jvm-gc-algorithm/">
+        ‹
+      </a>
+    </div>
+  
+  
+    <div class="right">
+      <a href="/2018/04/10/positioning-noema/">
+        ›
+      </a>
+    </div>
+  
+</section>
+
+      <div class="content">
+        <section class="post">
+          <center>
+              <h1>
+                  计算机网络-数据链路层
+                    <div class="date">2018-04-12</div>
+                  </h1>
+          </center>
+
+          <p>每天都感觉时间很紧迫，进步不大，浪费的时间太多了，能做的就是每天进步一点点 –stackfing</p>
+<p>数据链路层使用的信道主要有这两种类型：</p>
+<ul>
+<li>点对点信道：这种信道的通信方式是一对一的通信方式–ppp协议</li>
+<li>广播信道：这种信道使用一对多的广播通信方式，对于这种方式需要遵循专用的共享信道协议来协调主机数据的发送</li>
+</ul>
+<h2 id="数据链路和帧"><a href="#数据链路和帧" class="headerlink" title="数据链路和帧"></a>数据链路和帧</h2><p>链路：链路是从一个将结点到相邻结点的一段物理路线，二中间没有任何其他的交换结点。</p>
+<p>数据链路：将硬件和软件加到链路上，就构成了数据链路。</p>
+<p>帧：数据链路层的协议数据单元。</p>
+<p>数据链路层把网络层交下来的数据构成帧发送的链路上，也会把接收到的帧中的数据取出上交给网络层。</p>
+<h2 id="三个基本问题"><a href="#三个基本问题" class="headerlink" title="三个基本问题"></a>三个基本问题</h2><p>数据链路层的协议有很多，但是各种协议都有共同的问题：</p>
+<ul>
+<li>分装成帧</li>
+<li>透明传输</li>
+<li>差错检测</li>
+</ul>
+<p>1、分装成帧，是在数据的前面和后面都加上首部和尾部。这样就可以把数据进行分组发送，在接收端收到数据报之后就可以去掉首部和尾部。首部和尾部的作用就是用来将数据帧进行定界。</p>
+<p>在数据前面加的首部为 SOH（并不是’S’,’O’,’H’ 这三个字符)的二进制代码（00000001），尾部称为 EOT（00000100）</p>
+<p>数据链路层的协议都规定了所能传送帧的数据部分长度上限–MTU（最大传输单元）。一般 MTU 为 1500 字节</p>
+<p>2、透明传输，假设网络层交下来的是 ASCII 码组成的数据，我们直接添加 SOH 和 EOT 就可以完成定界。</p>
+<p>在传输二进制文件的时候文件中会出现 SOH 的二进制代码，这就出现了定界的错误。解决方案是在遇到 SOH 和 EOT 前插入转义字符。这样有效避免了定界的错误。</p>
+<p>3、差错检测，在比特流传输的过程中可能会出现 0 变成 1，1 变成 0 的错误（称为：比特差错）。</p>
+<p>数据链路层广泛使用了循环冗余检验 CRC 的检错技术。</p>
+<h2 id="点对点协议-PPP"><a href="#点对点协议-PPP" class="headerlink" title="点对点协议 PPP"></a>点对点协议 PPP</h2><p>PPP 协议是目前使用最广泛的数据链路层协议。</p>
+<p>互联网用户需要连接某个 ISP 才能接入到互联网，PPP 层就是计算机和 ISP 进行通信时所用的数据链路层通信协议。</p>
+<p>PPP 协议的要求：简单、封装成帧、透明性、多种网络层协议、多种类型链路、差错控制、检测连接状态、最大的传输单元、网络层地址协商、数据压缩协商</p>
+<p>不需要的特点：纠错、序号、多点线路、半双工或单双工</p>
+<p>PPP协议的组成</p>
+<ul>
+<li>一个将IP数据报封装到串行链路的方法。</li>
+<li>一个用来建立、配置和测试数据链路连接的链路控制协议LCP</li>
+<li>一套网络控制协议NCP</li>
+</ul>
+<h2 id="使用广播信道的数据链路层"><a href="#使用广播信道的数据链路层" class="headerlink" title="使用广播信道的数据链路层"></a>使用广播信道的数据链路层</h2><p>局域网的主要特点是：网络为一个单位所有，且地理范围和站点数目均有限。</p>
+<p>局域网可以按照网络拓扑进行分类：星形网、环形网、总线网</p>
+<p>以太网有两个标准，一个是 DIX Ethernet V2，另外一个是 IEEE 802.3</p>
+
+        </section>
+        <hr>
+        <p style="font-size: 16px;color: black;"><b>版权声明:本文为 StackFing 原创文章，如需转载请在明确位置注明出处！！</b></p>
+        <hr>
+        <p align="center">欢迎关注公众号：StackFing</p>
+        <p align="center"><img src="/about/qrcode_258.jpg"></p>
+        
+      </div>
+      
+    </div>
+    <footer>
+  <span class="muted">&copy; StackFing . All Rights Reserved.<br><a style="font-size:10px;" href="http://www.miitbeian.gov.cn/">赣ICP备17007885号</a></span><br>
+  <script src="https://s11.cnzz.com/z_stat.php?id=1261178793&web_id=1261178793" language="JavaScript"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</footer>
+
+  </body>
+</html>
