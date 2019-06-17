@@ -33,6 +33,12 @@
 
       <section class="paging">
   
+    <div class="left">
+      <a href="/2019/06/17/bytecode-monitorexit-twice/">
+        ‹
+      </a>
+    </div>
+  
   
     <div class="right">
       <a href="/2019/06/16/java-bytecode-instruction-listings/">
@@ -106,6 +112,7 @@ public @interface SpringBootConfiguration {
 
 }
 </code></pre><p>上方的注释已经说明了一切：<code>@SpringBootConfiguration</code> 注解可以作为一个标准的 <code>@Configuration</code> 注解以至于它可以被发现。在注解定义上还有一个注解也就是 <code>@Configuration</code> 注解。</p>
+<p>在 Spring Boot 1.4 之前使用的是 <code>@Configuration</code> 注解，而非 <code>@SpringBootConfiguration</code> 注解。而 <code>SpringBootConfiguration</code> 有 <code>@Configuration</code>，它们之间的关系类似于我们类之间的继承关系，有“派生性”。稍微注意的朋友会发现，<code>@Configuration</code> 注解上方有 <code>@Component</code> 注解标记，也就是说它实际上具有 <code>@Component</code> 的功能。</p>
 <p>再来看 <code>@EnableAutoConfiguration</code> 注解：</p>
 <pre><code>/**
  * Enable auto-configuration of the Spring Application Context, attempting to guess and
